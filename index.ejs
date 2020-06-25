@@ -1,0 +1,461 @@
+<html>
+    <head>
+        <title></title>
+       <link rel=stylesheet href="https://codemirror.net/doc/docs.css">
+
+<link rel="stylesheet" type="text/css" href="https://codemirror.net/lib/codemirror.css">
+<link rel="stylesheet" type="text/css" href="https://codemirror.net/addon/lint/lint.css">
+
+<script src="https://codemirror.net/lib/codemirror.js"></script>
+<script src="../mode/javascript/javascript.js"></script>
+<script src="https://codemirror.net/mode/css/css.js"></script>
+<script src="https://unpkg.com/jshint@2.9.6/dist/jshint.js"></script>
+<script src="https://unpkg.com/jsonlint@1.6.3/web/jsonlint.js"></script>
+<script src="https://unpkg.com/csslint@1.0.5/dist/csslint.js"></script>
+<script src="https://codemirror.net/addon/lint/lint.js"></script>
+<script src="https://codemirror.net/addon/lint/javascript-lint.js"></script>
+<script src="https://codemirror.net/addon/lint/json-lint.js"></script>
+<script src="https://codemirror.net/addon/lint/css-lint.js"></script>
+<script src=https://codemirror.net/mode/xml/xml.js></script>
+<script src=https://codemirror.net/mode/javascript/javascript.js></script>
+<script src=https://codemirror.net/mode/htmlmixed/htmlmixed.js></script>
+
+<link rel="stylesheet" href="https://codemirror.net/addon/hint/show-hint.css">
+
+<script src="https://codemirror.net/addon/hint/show-hint.js"></script>
+<script src="https://codemirror.net/addon/hint/javascript-hint.js"></script>
+<script src="https://codemirror.net/mode/markdown/markdown.js"></script>
+
+
+
+  <script src="https://codemirror.net/addon/hint/xml-hint.js"></script>
+
+  <script src="https://codemirror.net/addon/hint/html-hint.js"></script>
+
+  <script src="https://codemirror.net/mode/xml/xml.js"></script>
+
+  <script src="https://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
+
+<link rel="stylesheet" href="https://codemirror.net/theme/gruvbox-dark.css">
+
+<script src="https://codemirror.net/addon/edit/closetag.js"></script>
+<script src="https://codemirror.net/addon/fold/xml-fold.js"></script>
+<script src="https://codemirror.net/mode/css/css.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+      .CodeMirror {border: 1px solid black;}
+    </style>
+        <style>
+            html.Live-Editor,body.Live-Editor,main.Live-Editor{
+	margin: 0;
+	padding: 0;
+}
+main.Live-Editor{
+	background-color: #222;
+}
+.Live-Editor#input{
+	position: relative;
+	height: 300px;
+	overflow: hidden;
+	resize: vertical;
+}
+.Live-Editor#input label.textarea{
+	display: inline-block;
+	position: relative;
+	width: 33%;
+	height: 100%;
+}
+.Live-Editor#input label.textarea.head{
+	position:absolute;
+	top:0;
+}
+.Live-Editor#input fieldset.settings{
+	position:relative;
+	top:-40px;
+  margin:0;
+  padding:5px;
+  border:none;
+  
+  background-color:#333;
+}
+.Live-Editor#input label.checkbox{
+  padding:10px;
+  color:#ccc;
+  /* //background-color:#333; */
+}
+.Live-Editor h2{
+	width: 100%;
+	text-align: center;
+	margin:0;
+	background-color: #333;
+	border-bottom: 1px solid #666;
+	color: #999;
+}
+.Live-Editor#input textarea{
+	box-sizing: border-box;
+	width: 100%;
+	height: calc(100% - 80px);
+	padding: 10px;
+	resize: none;
+	border:none;
+	background-color: #333;
+	color: #ccc;
+}
+.Live-Editor#result{
+	border:1px black solid;
+	width: 100%;
+	min-height: 300px;
+	background-color: white;
+}
+.Live-Editor#reset,.Live-Editor#save{
+  display:inline-block;
+  margin:10px 0 20px;
+  padding:10px 20px;
+  background-color:#ddd;
+  color:black;
+  border:none;
+  font-family:initial;
+  font-size:initial;
+  line-height:initial;
+  text-decoration:none;
+  cursor:pointer;
+}
+.Live-Editor#reset:hover,.Live-Editor#save:hover{
+  background-color:#eee;
+}
+.Live-Editor#console{
+	max-height: 200px;
+	overflow-y: scroll;
+	background-color: #333;
+	color: #ccc;
+	padding: 10px;
+	border-radius: 0 0 20px 20px;
+}
+.Live-Editor#console p{
+	margin: 0;
+}
+
+
+        </style>
+    </head>
+    <body>
+
+    <style type="text/css">
+      .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+            color: #fff;
+            background-color: #080808;
+        }
+        .navbar-default .navbar-nav>li>a {
+            color: #9d9d9d;
+        }
+    </style>
+  
+  <nav class="navbar navbar-default" style="background-color: #222222;
+    border-color: #222222;border-radius:0px; margin-bottom: 0px;">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    
+     <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+     
+
+        <body class="Live-Editor">
+
+            <main class="Live-Editor">
+                  <form class="Live-Editor" id="input" method="post" action="/data">
+                      <label class="textarea head"><h2>HTML head</h2>
+                          <textarea class="head"style="max-height:200px; " >&lt;meta charset="utf-8"/&gt;</textarea>
+                      </label>
+                      <label class="textarea"><h2>HTML</h2>
+                          
+                          <!-- <textarea class="html" 
+                           name="htmldata">
+                         &lt;h1&gt;On-the-fly HTML / CSS / JavaScript Editor&lt;/h1&gt;
+
+                            </textarea> -->
+
+                     <p><textarea id="code" class="html" 
+                           name="htmldata">
+&lt;b&gt;Hello how are you today?&lt;/b&gt;
+&lt;a ERROR/&lt;a/&gt;
+
+&lt;h1&gt;hello&lt;/h1&gt;
+                    </textarea></p>
+
+
+                      </label>
+                      <script type="text/javascript">
+                        
+                      var editor_html=CodeMirror.fromTextArea(document.getElementById("code"), {
+                            lineNumbers: true,
+                            mode: "text/html",
+                            theme:"gruvbox-dark",
+                             extraKeys: {"Ctrl-Space": "autocomplete"},
+                              autoCloseTags: true,
+                            gutters: ["CodeMirror-lint-markers"],
+                            lint: true
+                          });
+                                           
+
+                          window.onload=function runEvery() {
+                            run();
+                          }
+
+                                              </script>
+                        
+
+                      <label class="textarea"><h2>CSS</h2>
+                          <textarea class="css"   placeholder="Your CSS here" name="cssdata" 
+                              id="code-css" 
+                          >
+body{
+background-color:blue
+}
+h1{
+text-align:center;
+}
+                            </textarea>
+
+
+                          </label>
+                          <label class="textarea"><h2>JavaScript</h2>
+                            
+                          <textarea class="js editor" id="code-js" 
+                          placeholder="Your JavaScript here" 
+                          name="jsdata">var widgets = []
+function updateHints() {
+  editor.operation(function(){
+    for (var i = 0; i < widgets.length.; ++i)
+      editor.removeLineWidget(widgets[i]);
+    widgets.length = 0;
+
+    JSHINT(editor.getValue());
+    for (var i = 0; i < JSHINT.errors.length; ++i) {
+      var err = JSHINT.errors[i];
+      if (!err) continue;
+      var msg = document.createElement("div");
+   
+}</textarea>
+      
+
+                  
+
+
+
+                      </label>
+                <fieldset class="settings">
+                        <label  class="checkbox"> <input id="webconsole" type="checkbox" checked/>activate Web console</label>
+                        <label class="checkbox"> <input id="jquery" type="checkbox"/>activate Jquery</label>
+                        <label class="checkbox"> <input id="showhead" type="checkbox"/>toggle HTML head input</label>
+                </fieldset>
+                  </form>
+                  
+                  <iframe class="Live-Editor"  id="result" srcdoc="">
+                  </iframe>
+                  <a class="Live-Editor" id="reset">Reset</a>
+                  <button class="Live-Editor" id="save" onclick="submitform()">Save</button>
+                  <button class="Live-Editor" id="save" onclick="downloadCurrentfile();">
+                    <i class="fa fa-cloud-download" style="font-size:16px;">
+                      
+                    </i>
+
+                  </button>
+                  <h2 class="Live-Editor">Console</h2>
+                  <div class="Live-Editor" id="console"></div>
+              </main>
+              <script>
+                function submitform() {
+                  document.getElementById("input").submit();
+                
+                }
+                </script>
+              <script>
+
+var editor_js = CodeMirror.fromTextArea(document.getElementById("code-js"), {
+    lineNumbers: true,
+    mode: "javascript",
+    extraKeys: {"Ctrl-Space": "autocomplete"},
+    gutters: ["CodeMirror-lint-markers"],
+    theme:"gruvbox-dark",
+    lint: true
+  });
+
+
+    // editor.getValue();
+
+
+  
+  var editor_css = CodeMirror.fromTextArea(document.getElementById("code-css"), {
+    lineNumbers: true,
+    mode: "css",
+     theme:"gruvbox-dark",
+    gutters: ["CodeMirror-lint-markers"],
+    lint: true
+  });
+
+ 
+  
+
+
+var headArea=document.getElementsByClassName('head')[1];
+var htmlArea=editor_html.getValue();
+var cssArea=editor_css.getValue();
+var jsArea=editor_js.getValue();
+
+
+// alert(cssArea);
+
+
+var resultHtml=document.getElementById('result').attributes.getNamedItem('srcdoc');
+
+var consDiv=document.getElementById("console");
+var closeTag='<\/';
+var webconsole='';
+var jq='';
+var befHead='<!DOCTYPE html><html><head>';
+var befCss='<style type="text/css">';
+var aftCss=closeTag+'style>';
+var befHtml='<title>result title'+closeTag+'title>'+closeTag+'head><body>';
+var befJs='<script>';
+var aftJs=closeTag+'script>'+closeTag+'body>'+closeTag+'html>';
+resultHtml.value='test'
+
+
+
+if (navigator.userAgent.match('Trident|Edge')){
+  alert(' This pen does not work with Microsoft Internet Explorer / Edge');
+  throw'';
+};
+
+function run(){
+
+  // alert('re');
+  var cssArea=editor_css.getValue();
+  var jsArea=editor_js.getValue();
+  var htmlArea=editor_html.getValue();
+  resultHtml.value=befHead+webconsole+headArea.value+befCss+cssArea+aftCss+befHtml+htmlArea+jq+befJs+jsArea+aftJs;
+
+      console.log(resultHtml.value)
+  // document.getElementById('code').innerHTML = resultHtml.value;   
+};
+function reset(){
+	htmlArea.value=htmlArea.textContent;
+	cssArea.value=cssArea.textContent;
+	jsArea.value=jsArea.textContent;
+	consDiv.textContent="";
+	run();
+}
+function save(){
+	var fullpage = new Blob([resultHtml.value], {type : 'text/html'});
+	var pageUrl= URL.createObjectURL(fullpage);
+	document.getElementById('save').href=pageUrl;
+	document.getElementById('save').download='index.html';
+};
+
+function downloadCurrentfile() {
+    download("file.html",resultHtml.value);
+}
+function download(filename, text) {
+    var createDl = document.createElement('a');
+    createDl.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    createDl.setAttribute('download', filename);
+    createDl.style.display = 'none';
+    document.body.appendChild(createDl);
+    createDl.click();
+    document.body.removeChild(createDl);
+}
+
+
+function wcons(){
+	webconsole=(this.checked?'<script>console.log=function(text){var cons=window.parent.document.getElementById("console");cons.innerHTML="<p></p>"+cons.innerHTML;cons.firstElementChild.textContent=text;}'+closeTag+'script>':'');
+	run()
+};
+function jquer(){
+	jq=(this.checked?'<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js">'+closeTag+'script>':'');
+	run()
+};
+function showhead(){
+	document.getElementsByClassName('textarea')[1].style.cssText=(this.checked?'z-index:-1':'z-index:0');
+	run()
+};
+//Event Handlers
+//htmlArea.addEventListener("input",run);
+// cssArea.addEventListener("input",run);
+
+editor_css.on('change', (editor) => {
+  run();
+});
+
+editor_js.on('change', (editor) => {
+  run();
+});
+
+editor_html.on('change', (editor) => {
+  run();
+});
+
+
+jsArea.addEventListener("input",run);
+
+document.getElementById('reset').addEventListener('click',reset);
+document.getElementById('save').addEventListener('click',save);
+document.getElementById("webconsole").addEventListener('change',wcons);
+document.getElementById("jquery").addEventListener('change',jquer);
+document.getElementById("showhead").addEventListener('change',showhead);
+//Initialize
+wcons.call(document.getElementById("webconsole")); //includes call to run()
+
+              
+  
+  
+
+
+</script>
+
+
+              </script>
+      
+
+      </body>
+</html>

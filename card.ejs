@@ -1,0 +1,206 @@
+<html>
+    <head>
+        <title></title>
+
+        <script   src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" ></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js" ></script>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+        <link href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick.min.css' rel='stylesheet' type='text/css'>
+ 
+        <link href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick-theme.min.css' rel='stylesheet' type='text/css'>
+        <!-- <link href='' rel='stylesheet' type='text/css'> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+    </head>
+    <body>
+        <!-- https://codepen.io/vilcu/pen/ZQwdGQ -->
+
+        <style>
+            html, body{
+  margin: 0;
+  padding: 0;
+}
+.wrapper{
+  width:100%;
+  padding-top: 20px;
+  height: 40%;
+  text-align:center;
+}
+h2{
+  font-family:sans-serif;
+  color:#fff;
+}
+.carousel{
+  width:90%;
+  margin:0px auto;
+}
+.slick-slide{
+  margin:10px;
+}
+.slick-slide img{
+  width:100%;
+}
+.slick-prev, .slick-next{
+  background: #000;
+  border-radius: 15px;
+  border-color: transparent;
+}
+.card{
+  border: 2px solid #fff;
+  height: 80%;
+  box-shadow: 1px 1px 15px #ccc;
+}
+.card-body{
+  background: #fff;
+  width: 100%;
+  
+  vertical-align: top;
+}
+.card-content{
+  text-align: left;
+  color: #333;
+  padding: 15px;
+}
+.card-text{
+  font-size: 14px;
+  font-weight: 300;
+}
+        </style>
+<div class="wrapper">
+    <h2>Slick Carousel Example<h2>
+      <div class="carousel">
+
+            <script>
+                let count =0;
+            </script>
+        <%
+        if(result){
+            result.forEach(function(user){ %>
+                
+                
+                
+                <textarea name="hide" style="display:none;" class="html"><%=user.htmldata%></textarea>
+                <textarea name="hide" style="display:none;" class="css"><%=user.cssdata%></textarea>
+                <textarea name="hide" style="display:none;" class="js"><%=user.jsdata%></textarea>
+               
+                    <form action="/forkpin" method="POST">
+                        <div>
+                            <div class="card">
+                              <input type="text"  name="forkid" value="<%=user.id%>" />
+                              <iframe style="width: 100%;height:100% ;" 
+                               id="<%=user.id%>" frameborder="0" style="overflow:hidden ;" allowfullscreen srcdoc="">
+                              
+                              </iframe>
+                                  
+                              <button>
+                                  Get This pin 
+                              </button>
+                                
+                              <div class="card-body">
+                                 
+                                </div>
+                          
+                            </div>
+                        </div>
+                    </form>
+ 
+<script>
+                                        
+                
+    var htmlArea=document.getElementsByClassName('html')[count];
+    var cssArea=document.getElementsByClassName('css')[count];
+    var jsArea=document.getElementsByClassName('js')[count];                       
+    
+                        </script>
+    
+<script>
+var resultHtml=document.getElementById("<%=user.id%>").attributes.getNamedItem('srcdoc');
+
+var consDiv=document.getElementById("console");
+var closeTag='<\/';
+var webconsole='';
+var jq='';
+var befHead='<!DOCTYPE html><html><head>';
+var befCss='<style type="text/css">';
+var aftCss=closeTag+'style>';
+var befHtml='<title>result title'+closeTag+'title>'+closeTag+'head><body>';
+var befJs='<script>';
+var aftJs=closeTag+'script>'+closeTag+'body>'+closeTag+'html>';
+
+
+if (navigator.userAgent.match('Trident|Edge')){
+  alert(' This pen does not work with Microsoft Internet Explorer / Edge');
+  throw'';
+};
+
+
+//MAIN function
+function run(){
+	resultHtml.value=befHead+webconsole+befCss+cssArea.value+aftCss+befHtml+htmlArea.value+jq+befJs+jsArea.value+aftJs;
+};
+
+run();
+            count++;
+                    </script>
+         
+        
+        
+         <%}) }%>
+        
+           
+      </div>
+      </div>
+    </body>
+
+    <script>
+        $(document).ready(function(){
+  $('.carousel').slick({
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    dots:true,
+    centerMode: true,
+    responsive: [{
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        // centerMode: true,
+
+      }
+
+    }, {
+      breakpoint: 800,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        dots: false,
+        infinite: true,
+
+      }
+    },  {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: true,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 2000,
+      }
+    }]
+  });
+});
+
+
+
+
+
+
+
+
+    </script>
+</html>
+

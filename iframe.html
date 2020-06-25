@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+
+    <body>
+
+        <iframe id="iframe" srcdoc="<h1>jhe</h1>"></iframe>
+
+            <script>
+                const getBlobURL = (code, type) => {
+                const blob = new Blob([code], { type })
+                return URL.createObjectURL(blob)
+                
+            }
+
+console.log(getBlobURL('<p>My webpage</p>', 'text/html'))
+            </script>
+    </body>
+</html>

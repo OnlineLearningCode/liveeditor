@@ -1,0 +1,223 @@
+<html>
+    <head>
+        <title></title>
+        <!-- <link rel="stylesheet" href="./style.css"> </link> -->
+        <style>
+            html.Live-Editor,body.Live-Editor,main.Live-Editor{
+	margin: 0;
+	padding: 0;
+}
+main.Live-Editor{
+	padding: 20px;
+	background-color: #666;
+}
+.Live-Editor#input{
+	position: relative;
+	height: 300px;
+	overflow: hidden;
+	resize: vertical;
+}
+.Live-Editor#input label.textarea{
+	display: inline-block;
+	position: relative;
+	width: 33%;
+	height: 100%;
+}
+.Live-Editor#input label.textarea.head{
+	position:absolute;
+	top:0;
+}
+.Live-Editor#input fieldset.settings{
+	position:relative;
+	top:-40px;
+  margin:0;
+  padding:5px;
+  border:none;
+  border-radius:20px;
+  background-color:#333;
+}
+.Live-Editor#input label.checkbox{
+  padding:10px;
+  color:#ccc;
+  /* //background-color:#333; */
+}
+.Live-Editor h2{
+	width: 100%;
+	text-align: center;
+	margin:0;
+	border-radius: 20px 20px 0 0;
+	background-color: #333;
+	border-bottom: 1px solid #666;
+	color: #999;
+}
+.Live-Editor#input textarea{
+	box-sizing: border-box;
+	width: 100%;
+	height: calc(100% - 80px);
+	padding: 10px;
+	resize: none;
+	border:none;
+	border-radius: 0 0 20px 20px;
+	background-color: #333;
+	color: #ccc;
+}
+.Live-Editor#result{
+	border:1px black solid;
+	width: 100%;
+	min-height: 300px;
+	background-color: white;
+}
+.Live-Editor#reset,.Live-Editor#save{
+  display:inline-block;
+  margin:10px 0 20px;
+  padding:10px 20px;
+  background-color:#ddd;
+  color:black;
+  border:none;
+  font-family:initial;
+  font-size:initial;
+  line-height:initial;
+  text-decoration:none;
+  cursor:pointer;
+}
+.Live-Editor#reset:hover,.Live-Editor#save:hover{
+  background-color:#eee;
+}
+.Live-Editor#console{
+	max-height: 200px;
+	overflow-y: scroll;
+	background-color: #333;
+	color: #ccc;
+	padding: 10px;
+	border-radius: 0 0 20px 20px;
+}
+.Live-Editor#console p{
+	margin: 0;
+}
+        </style>
+    </head>
+    <body>
+        <body class="Live-Editor">
+            <main class="Live-Editor">
+                  <form class="Live-Editor" id="input" method="post" action="/data">
+                      <label class="textarea head"><h2>HTML head</h2>
+                          <textarea class="head">&lt;meta charset="utf-8"/&gt;</textarea>
+                      </label>
+                      <label class="textarea"><h2>HTML</h2>
+                          <textarea class="html"  name="htmldata">&lt;h1&gt;On-the-fly HTML / CSS / JavaScript Editor&lt;/h1&gt;</textarea>
+                      </label>
+                      <label class="textarea"><h2>CSS</h2>
+                          <textarea class="css" placeholder="Your CSS here" name="cssdata">
+                                body{
+                                    background-color:gold
+                                }
+                                h1{
+                                    text-align:center;
+                                }
+                  </textarea>
+                          </label>
+                          <label class="textarea"><h2>JavaScript</h2>
+                          <textarea class="js" placeholder="Your JavaScript here" name="jsdata">console.log(new Date());
+          
+          $('h1').css({color:'red'});  //test jquery toggle</textarea>
+                      </label>
+                <fieldset class="settings">
+                        <label  class="checkbox"> <input id="webconsole" type="checkbox" checked/>activate Web console</label>
+                        <label class="checkbox"> <input id="jquery" type="checkbox"/>activate Jquery</label>
+                        <label class="checkbox"> <input id="showhead" type="checkbox"/>toggle HTML head input</label>
+                </fieldset>
+                  </form>
+                  
+                  <iframe class="Live-Editor" id="result" srcdoc="">
+                  </iframe>
+                  <a class="Live-Editor" id="reset">Reset</a>
+                  <button class="Live-Editor" id="save" onclick="submitform()">Save</button>
+                  <h2 class="Live-Editor">Console</h2>
+                  <div class="Live-Editor" id="console"></div>
+              </main>
+              <script>
+                function submitform() {
+                  document.getElementById("input").submit();
+                
+                }
+                </script>
+              <script>
+var headArea=document.getElementsByClassName('head')[1];
+var htmlArea=document.getElementsByClassName('html')[0];
+var cssArea=document.getElementsByClassName('css')[0];
+var jsArea=document.getElementsByClassName('js')[0];
+
+console.log('====================================');
+console.log(jsArea);
+console.log('====================================');
+
+var resultHtml=document.getElementById('result').attributes.getNamedItem('srcdoc');
+
+var consDiv=document.getElementById("console");
+var closeTag='<\/';
+var webconsole='';
+var jq='';
+var befHead='<!DOCTYPE html><html><head>';
+var befCss='<style type="text/css">';
+var aftCss=closeTag+'style>';
+var befHtml='<title>result title'+closeTag+'title>'+closeTag+'head><body>';
+var befJs='<script>';
+var aftJs=closeTag+'script>'+closeTag+'body>'+closeTag+'html>';
+resultHtml.value='test'
+
+
+
+if (navigator.userAgent.match('Trident|Edge')){
+  alert(' This pen does not work with Microsoft Internet Explorer / Edge');
+  throw'';
+};
+
+console.log('====================================');
+console.log(htmlArea.value);
+console.log('====================================');
+//MAIN function
+function run(){
+	resultHtml.value=befHead+webconsole+headArea.value+befCss+cssArea.value+aftCss+befHtml+htmlArea.value+jq+befJs+jsArea.value+aftJs;
+  //console.log(headArea.value);
+};
+function reset(){
+	htmlArea.value=htmlArea.textContent;
+	cssArea.value=cssArea.textContent;
+	jsArea.value=jsArea.textContent;
+	consDiv.textContent="";
+	run();
+}
+function save(){
+	var fullpage = new Blob([resultHtml.value], {type : 'text/html'});
+	var pageUrl= URL.createObjectURL(fullpage);
+	document.getElementById('save').href=pageUrl;
+	document.getElementById('save').download='index.html';
+};
+function wcons(){
+	webconsole=(this.checked?'<script>console.log=function(text){var cons=window.parent.document.getElementById("console");cons.innerHTML="<p></p>"+cons.innerHTML;cons.firstElementChild.textContent=text;}'+closeTag+'script>':'');
+	run()
+};
+function jquer(){
+	jq=(this.checked?'<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js">'+closeTag+'script>':'');
+	run()
+};
+function showhead(){
+	document.getElementsByClassName('textarea')[1].style.cssText=(this.checked?'z-index:-1':'z-index:0');
+	run()
+};
+//Event Handlers
+htmlArea.addEventListener("input",run);
+cssArea.addEventListener("input",run);
+jsArea.addEventListener("input",run);
+document.getElementById('reset').addEventListener('click',reset);
+document.getElementById('save').addEventListener('click',save);
+document.getElementById("webconsole").addEventListener('change',wcons);
+document.getElementById("jquery").addEventListener('change',jquer);
+document.getElementById("showhead").addEventListener('change',showhead);
+//Initialize
+wcons.call(document.getElementById("webconsole")); //includes call to run()
+
+              </script>
+              
+    </body>
+</html>
